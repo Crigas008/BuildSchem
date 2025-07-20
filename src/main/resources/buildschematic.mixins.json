@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.crigas.buildschematic.mixins",
+  "compatibilityLevel": "JAVA_17",
+  "refmap": "buildschematic.refmap.json",
+  "mixins": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

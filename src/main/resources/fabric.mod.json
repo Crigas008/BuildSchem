@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "id": "buidlshematic",
+  "version": "${version}",
+  "name": "Build Schematic",
+  "description": "Automated schematic building with beautiful animations",
+  "authors": [
+    "crigas"
+  ],
+  "contact": {
+    "homepage": "https://github.com/Сrigas008/buildschematic",
+    "sources": "https://github.com/Сrigas008/buildschematic"
+  },
+  "license": "MIT",
+  "icon": "assets/buidlshematic/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.crigas.buildschematic.BuildSchematic"
+    ],
+    "client": [
+      "com.crigas.buildschematic.client.BuildSchematicClient"
+    ]
+  },
+  "mixins": [
+    "buildschematic.mixins.json",
+    {
+      "config": "buildschematic.client.mixins.json",
+      "environment": "client"
+    }
+  ],
+  "depends": {
+    "fabricloader": ">=0.16.0",
+    "fabric-api": "*",
+    "minecraft": ">=1.21 <=1.21.4",
+    "java": ">=21"
+  },
+  "suggests": {
+    "another-mod": "*"
+  }
+}
+
