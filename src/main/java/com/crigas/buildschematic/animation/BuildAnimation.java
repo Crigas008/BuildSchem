@@ -27,7 +27,7 @@ public class BuildAnimation {
     private final AnimationType animationType;
     
     private final int layerPauseTicks;
-    private List<List<Map.Entry<BlockPos, BlockState>>> layers;
+    private final List<List<Map.Entry<BlockPos, BlockState>>> layers;
     private int currentLayerIndex = 0;
     private int layerPauseCounter = 0;
     private int currentLayerBlockIndex = 0;
@@ -35,13 +35,7 @@ public class BuildAnimation {
     private int currentIndex = 0;
     private boolean isCompleted = false;
     private boolean isPaused = false;
-    private final boolean withJitter;
 
-    private static int getRandomJitterTicks(ServerWorld world) {
-        return 5 + world.random.nextInt(6);
-    }
-
-    private static final int JITTER_TICKS = 15;
 
     public enum AnimationType {
         BOTTOM_TO_TOP,
@@ -70,14 +64,10 @@ public class BuildAnimation {
         this.blocksPerTick = blocksPerTick;
         this.animationType = animationType;
         this.layerPauseTicks = layerPauseTicks;
-        this.withJitter = withJitter;
         this.blockQueue = new ArrayList<>();
         this.layers = new ArrayList<>();
 
         initializeBlockQueue();
-    }
-    public boolean isWithJitter() {
-        return withJitter;
     }
 
     private void initializeBlockQueue() {
@@ -120,22 +110,9 @@ public class BuildAnimation {
         }
     }
 
-    public int getTotalLayers() {
-        if (animationType == AnimationType.LAYER_BY_LAYER || animationType == AnimationType.INSTANT_LAYER) {
-            return layers.size();
-        }
-        return -1;
-    }
 
 
-    public float getCurrentLayerProgress() {
-        if (animationType == AnimationType.LAYER_BY_LAYER && currentLayerIndex < layers.size()) {
-            List<Map.Entry<BlockPos, BlockState>> currentLayer = layers.get(currentLayerIndex);
-            if (currentLayer.isEmpty()) return 1.0f;
-            return (float) currentLayerBlockIndex / currentLayer.size();
-        }
-        return 0.0f;
-    }
+
     
     private void initializeTopToBottom() {
         for (int y = schematic.height() - 1; y >= 0; y--) {
@@ -222,7 +199,7 @@ public class BuildAnimation {
         } else if (animationType == AnimationType.FALLING_BLOCKS) {
             tickFallingBlocks();
         } else if (animationType == AnimationType.FALLING_LAYERS) {
-            tickFallingLayers(); // Новый метод для падающих слоев
+            tickFallingLayers();
         } else {
             tickNormal();
         }
@@ -380,7 +357,7 @@ public class BuildAnimation {
                 pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, // center coordinates
                 blockState.getSoundGroup().getPlaceSound(),
                 SoundCategory.BLOCKS,
-                5.0f,
+                15.0f,
                 1.0f
         );
 
